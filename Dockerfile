@@ -9,7 +9,7 @@ WORKDIR /app
 
 # 先复制 lockfile，确保 npm ci 按锁定版本安装，构建结果更可复现。
 COPY package.json package-lock.json .npmrc ./
-RUN npm ci
+RUN --mount=type=cache,target=/root/.npm npm ci --prefer-offline --no-audit --progress=false
 
 # -------------------------
 # 构建阶段：编译 Next.js 应用
