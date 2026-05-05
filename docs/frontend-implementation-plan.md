@@ -237,7 +237,11 @@ light-blog-fe
 环境变量：
 
 ```env
+# 本地开发
 NEXT_PUBLIC_API_BASE_URL=http://localhost:8081
+
+# 生产环境留空，接口请求会走同域 /api
+NEXT_PUBLIC_API_BASE_URL=
 ```
 
 核心封装：
@@ -449,4 +453,3 @@ shadcn/ui 优先引入：
 - 文章编辑器第一版使用 Markdown 文本框 + 预览，避免引入过重编辑器
 - 所有数据请求使用 TanStack Query，表单提交成功后通过 query invalidation 刷新列表
 - 删除、发布、保存等操作统一使用 shadcn dialog 和 sonner toast
-

@@ -24,7 +24,7 @@ COPY . .
 
 # NEXT_PUBLIC_* 会被 Next.js 注入到浏览器端代码。
 # 这里设置默认值，compose 可以通过 build.args 覆盖。
-ARG NEXT_PUBLIC_API_BASE_URL=http://localhost:8081
+ARG NEXT_PUBLIC_API_BASE_URL=
 ENV NEXT_PUBLIC_API_BASE_URL=$NEXT_PUBLIC_API_BASE_URL
 
 # 生成生产构建产物。next.config.ts 中的 output: 'standalone' 会输出可独立运行的 server.js。
