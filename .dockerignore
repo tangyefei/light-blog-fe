@@ -1,0 +1,20 @@
+# 依赖目录体积很大，镜像内会通过 npm ci 重新安装。
+node_modules/
+
+# Next.js 构建产物，镜像内会重新生成。
+.next/
+out/
+
+# 本地 npm 缓存无需进入镜像上下文。
+.npm-cache/
+npm-debug.log*
+
+# Git 与编辑器配置。
+.git/
+.gitignore
+.idea/
+.vscode/
+
+# 本地环境变量可能包含敏感信息或与容器构建参数冲突。
+.env.local
+.env*.local
