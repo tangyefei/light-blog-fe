@@ -6,7 +6,7 @@ on:
       - main
 
 env:
-  IMAGE_NAME: light-blog-frontend
+  IMAGE_NAME: light-blog-fe
   AWS_REGION: ${{ secrets.AWS_REGION }}
 
 jobs:
