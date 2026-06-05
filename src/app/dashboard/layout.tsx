@@ -2,10 +2,8 @@
 
 import { FileText, LayoutDashboard, Tags } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname, useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { useAuth } from '@/features/auth/use-auth'
 import { cn } from '@/lib/utils'
 
 const links = [
@@ -15,17 +13,7 @@ const links = [
 ]
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const router = useRouter()
   const pathname = usePathname()
-  const { isLoggedIn } = useAuth()
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.replace('/login')
-    }
-  }, [isLoggedIn, router])
-
-  if (!isLoggedIn) return null
 
   return (
     <div className="grid gap-6 md:grid-cols-[190px_minmax(0,1fr)]">
@@ -49,4 +37,3 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     </div>
   )
 }
-

@@ -1,8 +1,10 @@
-import { API_BASE_URL, AUTH_TOKEN_KEY } from './constants'
+import { API_BASE_URL, AUTH_TOKEN_KEY, MAIN_APP_URL } from './constants'
+import { isAuthSyncPending } from './auth-sync'
 import { ApiError, type ApiResult } from '@/types/api'
 
 type RequestOptions = RequestInit & {
   skipAuth?: boolean
+  silent401?: boolean
 }
 
 function getToken() {
@@ -43,6 +45,13 @@ export async function request<T>(path: string, options: RequestOptions = {}): Pr
   if (!response.ok || result.code !== 200) {
     if (response.status === 401 || result.code === 401) {
       clearAuth()
+      if (!options.silent401 && !isAuthSyncPending() && typeof window !== 'undefined') {
+        if (window.parent !== window) {
+          window.parent.postMessage({ type: 'AUTH_EXPIRED' }, MAIN_APP_URL)
+        } else {
+          window.location.href = `${MAIN_APP_URL}/login?redirect=${encodeURIComponent(window.location.href)}`
+        }
+      }
     }
     throw new ApiError(result.code || response.status, result.message || '请求失败')
   }

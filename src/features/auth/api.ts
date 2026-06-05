@@ -18,6 +18,5 @@ export function register(payload: RegisterRequest) {
 }
 
 export function getCurrentUser() {
-  return request<User>('/api/users/me')
+  return request<User>('/api/users/me', { silent401: true })
 }
-

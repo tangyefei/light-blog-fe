@@ -5,6 +5,15 @@ import Link from 'next/link'
 import { useTheme } from 'next-themes'
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/features/auth/use-auth'
+import { MAIN_APP_URL } from '@/lib/constants'
+
+function goToLogin() {
+  if (window.parent !== window) {
+    window.parent.postMessage({ type: 'AUTH_EXPIRED' }, MAIN_APP_URL)
+  } else {
+    window.location.href = `${MAIN_APP_URL}/login?redirect=${encodeURIComponent(window.location.href)}`
+  }
+}
 
 export function AppHeader() {
   const { theme, setTheme } = useTheme()
@@ -38,11 +47,9 @@ export function AppHeader() {
               </Button>
             </>
           ) : (
-            <Button asChild variant="ghost" size="sm">
-              <Link href="/login">
-                <LogIn className="h-4 w-4" />
-                登录
-              </Link>
+            <Button variant="ghost" size="sm" onClick={goToLogin}>
+              <LogIn className="h-4 w-4" />
+              登录
             </Button>
           )}
           <Button
@@ -60,4 +67,3 @@ export function AppHeader() {
     </header>
   )
 }
-
