@@ -3,6 +3,23 @@
 import { AUTH_TOKEN_KEY, AUTH_USER_KEY } from './constants'
 import type { LoginResponse, User } from '@/types/user'
 
+function getCookie(name: string): string | null {
+  const match = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'))
+  return match ? decodeURIComponent(match[1]) : null
+}
+
+// On standalone load (not iframe), sync cookie → localStorage
+if (typeof window !== 'undefined' && window.parent === window) {
+  const cookieToken = getCookie(AUTH_TOKEN_KEY)
+  const cookieUser = getCookie(AUTH_USER_KEY)
+  if (cookieToken && !window.localStorage.getItem(AUTH_TOKEN_KEY)) {
+    window.localStorage.setItem(AUTH_TOKEN_KEY, cookieToken)
+    if (cookieUser) {
+      window.localStorage.setItem(AUTH_USER_KEY, cookieUser)
+    }
+  }
+}
+
 export function getStoredToken() {
   if (typeof window === 'undefined') return null
   return window.localStorage.getItem(AUTH_TOKEN_KEY)
@@ -40,4 +57,3 @@ export function clearStoredAuth() {
   window.localStorage.removeItem(AUTH_TOKEN_KEY)
   window.localStorage.removeItem(AUTH_USER_KEY)
 }
-
